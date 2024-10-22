@@ -1,0 +1,28 @@
+name: Run Jupyter Notebook daily
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs daily at midnight UTC
+
+jobs:
+  execute-notebook:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Install Jupyter
+      run: |
+        python -m pip install jupyter nbconvert
+    - name: Execute the Jupyter Notebook
+      run: |
+        jupyter nbconvert --to notebook --execute daily_update_notebook.ipynb --output daily_update_notebook.ipynb
+    - name: Commit changes
+      run: |
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
+        git add daily_update_notebook.ipynb
+        git commit -m "Updated Jupyter Notebook with daily run" || echo "No changes to commit"
+        git push
