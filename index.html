@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamic Daily Update</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1, h2 {
+            margin-bottom: 5px;
+        }
+        hr {
+            margin: 20px 0;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const day = today.getDay(); // 0 (Sunday) to 6 (Saturday)
+
+            let outlookNumber = 2870;
+            let gmailNumber = 227;
+
+            // Calculate numbers based on weekday (Monday to Friday)
+            if (day >= 1 && day <= 5) { // Monday to Friday
+                outlookNumber -= (day - 1) * 10;
+                gmailNumber -= (day - 1) * 5;
+            }
+
+            // Calculate Photos date
+            const photosStartDate = new Date('2020-01-01');
+            if (day >= 1 && day <= 5) {
+                photosStartDate.setDate(photosStartDate.getDate() + (day - 1) * 7);
+            }
+
+            // Update the HTML content
+            document.getElementById('outlook-date').textContent = today.toDateString();
+            document.getElementById('outlook-number').textContent = outlookNumber;
+            document.getElementById('gmail-date').textContent = today.toDateString();
+            document.getElementById('gmail-number').textContent = gmailNumber;
+            document.getElementById('photos-date').textContent = today.toDateString();
+            document.getElementById('photos-next').textContent = photosStartDate.toDateString();
+        });
+    </script>
+</head>
+<body>
+    <h1>Outlook</h1>
+    <p>Today's Date: <span id="outlook-date"></span></p>
+    <p>Outlook Number: <span id="outlook-number"></span></p>
+
+    <hr>
+
+    <h1>Gmail</h1>
+    <p>Today's Date: <span id="gmail-date"></span></p>
+    <p>Gmail Number: <span id="gmail-number"></span></p>
+
+    <hr>
+
+    <h1>Photos</h1>
+    <p>Today's Date: <span id="photos-date"></span></p>
+    <p>Photos Next Date: <span id="photos-next"></span></p>
+</body>
+</html>
